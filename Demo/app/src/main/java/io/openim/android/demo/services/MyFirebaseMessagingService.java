@@ -1,35 +1,38 @@
-package io.openim.android.demo.services;
-
-import androidx.annotation.NonNull;
-
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
-
-import io.openim.android.ouicore.im.IMUtil;
-import io.openim.android.ouicore.utils.L;
-
-/**
- * Used for handling events from FCM
- *
- * @see <a href="https://firebase.google.com/docs/cloud-messaging/android/client/">FCM Doc</a>
- */
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    public static final int NOTIFICATION_ID = 201;
-    @Override
-    public void onMessageReceived(@NonNull RemoteMessage message) {
-        L.e("onMessageReceived: " + message.getData());
-        if (!message.getData().isEmpty()) {
-            L.e("Message data payload: " + message.getData());
-            IMUtil.sendNotice(NOTIFICATION_ID);
-        }
-        if (message.getNotification() != null) {
-            L.e("Message Notification Body: " + message.getNotification().getBody());
-        }
-    }
-
-    @Override
-    public void onNewToken(@NonNull String token) {
-        L.e("onNewToken: " + token);
-    }
-
-}
+// FCM 推送已移除，以下源码保留供后期参考（恢复时需同步：app/build.gradle.kts 的 firebase 依赖与
+// google-services 插件、AndroidManifest 的 service 声明、MainVM 的 initOfflineNotificationConfig）
+//
+//package io.openim.android.demo.services;
+//
+//import androidx.annotation.NonNull;
+//
+//import com.google.firebase.messaging.FirebaseMessagingService;
+//import com.google.firebase.messaging.RemoteMessage;
+//
+//import io.openim.android.ouicore.im.IMUtil;
+//import io.openim.android.ouicore.utils.L;
+//
+///**
+// * Used for handling events from FCM
+// *
+// * @see <a href="https://firebase.google.com/docs/cloud-messaging/android/client/">FCM Doc</a>
+// */
+//public class MyFirebaseMessagingService extends FirebaseMessagingService {
+//    public static final int NOTIFICATION_ID = 201;
+//    @Override
+//    public void onMessageReceived(@NonNull RemoteMessage message) {
+//        L.e("onMessageReceived: " + message.getData());
+//        if (!message.getData().isEmpty()) {
+//            L.e("Message data payload: " + message.getData());
+//            IMUtil.sendNotice(NOTIFICATION_ID);
+//        }
+//        if (message.getNotification() != null) {
+//            L.e("Message Notification Body: " + message.getNotification().getBody());
+//        }
+//    }
+//
+//    @Override
+//    public void onNewToken(@NonNull String token) {
+//        L.e("onNewToken: " + token);
+//    }
+//
+//}

@@ -253,11 +253,11 @@ public class LoginVM extends BaseViewModel<LoginVM.ViewAction> {
 
     public void register() {
         String pwdValue = pwd.getValue();
-        if (!RegexValid.isValidPassword(pwdValue)) {
-            toast(BaseApp.inst().getString(
-                io.openim.android.ouicore.R.string.password_valid_tips));
-            return;
-        }
+//        if (!RegexValid.isValidPassword(pwdValue)) {
+//            toast(BaseApp.inst().getString(
+//                io.openim.android.ouicore.R.string.password_valid_tips));
+//            return;
+//        }
         Parameter parameter = new Parameter();
         parameter.add("verifyCode", verificationCode);
         parameter.add("platform", Platform.ANDROID);

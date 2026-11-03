@@ -12,9 +12,8 @@ import android.view.View;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import com.alibaba.android.arouter.facade.Postcard;
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.therouter.router.Route;
+import com.therouter.TheRouter;
 
 
 import java.util.ArrayList;
@@ -274,7 +273,7 @@ public class PersonDetailActivity extends BaseActivity<SearchVM, ActivityPersonD
                     compatActivity.finish();
                     overridePendingTransition(0, 0);
                 }
-                runOnUiThread(() -> ARouter.getInstance().build(Routes.Conversation.CHAT)
+                runOnUiThread(() -> TheRouter.build(Routes.Conversation.CHAT)
                     .withString(Constants.K_ID, vm.searchContent.getValue())
                     .withString(Constants.K_NAME, vm.userInfo.getValue().get(0).getNickname()).navigation());
             }

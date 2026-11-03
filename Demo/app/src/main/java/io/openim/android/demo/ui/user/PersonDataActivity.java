@@ -8,12 +8,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import io.openim.android.demo.databinding.ActivityPersonInfoBinding;
@@ -25,33 +21,22 @@ import io.openim.android.ouicore.base.BaseApp;
 import io.openim.android.ouicore.base.vm.injection.Easy;
 import io.openim.android.ouicore.databinding.LayoutCommonDialogBinding;
 import io.openim.android.ouicore.ex.MultipleChoice;
-import io.openim.android.ouicore.utils.Common;
 import io.openim.android.ouicore.utils.Constants;
-import io.openim.android.ouicore.utils.Obs;
-import io.openim.android.ouicore.utils.Routes;
 import io.openim.android.ouicore.vm.ContactListVM;
-import io.openim.android.ouicore.vm.SelectTargetVM;
 import io.openim.android.ouicore.widget.CommonDialog;
 import io.openim.android.ouicore.widget.WaitDialog;
 import io.openim.android.sdk.OpenIMClient;
 import io.openim.android.sdk.listener.OnBase;
 import io.openim.android.sdk.listener.OnMsgSendCallback;
-import io.openim.android.sdk.models.CardElem;
 import io.openim.android.sdk.models.Message;
 import io.openim.android.sdk.models.OfflinePushInfo;
 import io.openim.android.sdk.models.UpdateFriendsReq;
 import io.openim.android.sdk.models.UserInfo;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.observers.DisposableSingleObserver;
 
 public class PersonDataActivity extends BaseActivity<PersonalVM, ActivityPersonInfoBinding> {
 

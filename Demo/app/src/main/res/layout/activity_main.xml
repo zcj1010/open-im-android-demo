@@ -69,17 +69,6 @@
                             android:textColor="@drawable/selector_tab_txt_color"
                             android:textSize="10sp" />
                         <RadioButton
-                            android:id="@+id/men3"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:button="@null"
-                            android:drawableTop="@drawable/selector_moments"
-                            android:gravity="center"
-                            android:text="@string/find"
-                            android:textColor="@drawable/selector_tab_txt_color"
-                            android:textSize="10sp" />
-                        <RadioButton
                             android:id="@+id/men4"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"

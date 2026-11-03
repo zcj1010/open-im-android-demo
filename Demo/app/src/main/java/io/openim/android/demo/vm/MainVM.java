@@ -8,12 +8,12 @@ import androidx.core.util.Consumer;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.hjq.permissions.Permission;
+import com.therouter.TheRouter;
+//import com.google.android.gms.common.ConnectionResult;
+//import com.google.android.gms.common.GoogleApiAvailability;
+//import com.google.firebase.analytics.FirebaseAnalytics;
+//import com.google.firebase.messaging.FirebaseMessaging;
+//import com.hjq.permissions.Permission;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
@@ -37,7 +37,6 @@ import io.openim.android.ouicore.api.NiService;
 import io.openim.android.ouicore.api.OneselfService;
 import io.openim.android.ouicore.services.CallingService;
 import io.openim.android.ouicore.utils.Constants;
-import io.openim.android.ouicore.utils.HasPermissions;
 import io.openim.android.ouicore.utils.L;
 import io.openim.android.ouicore.utils.Obs;
 import io.openim.android.ouicore.utils.Routes;
@@ -53,7 +52,6 @@ import io.openim.android.sdk.listener.OnConversationListener;
 import io.openim.android.sdk.models.ConversationInfo;
 import io.openim.android.sdk.models.ConversationReq;
 import io.openim.android.sdk.models.UserInfo;
-import timber.log.Timber;
 
 public class MainVM extends BaseViewModel<LoginVM.ViewAction> implements OnConnListener, OnConversationListener {
 
@@ -69,7 +67,7 @@ public class MainVM extends BaseViewModel<LoginVM.ViewAction> implements OnConnL
     protected void viewCreate() {
         IMEvent.getInstance().addConnListener(this);
         IMEvent.getInstance().addConversationListener(this);
-        callingService = (CallingService) ARouter.getInstance().build(Routes.Service.CALLING).navigation();
+        callingService = TheRouter.get(CallingService.class);
         if (null != callingService) callingService.setOnServicePriorLoginCallBack(this::initDate);
 
         if (fromLogin) {
@@ -208,42 +206,43 @@ public class MainVM extends BaseViewModel<LoginVM.ViewAction> implements OnConnL
         });
     }
 
-    public void initOfflineNotificationConfig(@NonNull Context context, @NonNull String userId) {
-        new HasPermissions(context, Permission.NOTIFICATION_SERVICE).safeGo(() -> {
-            int gmsAvailableStatus = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context);
-            if (gmsAvailableStatus == ConnectionResult.SUCCESS) {
-                FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-                FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(true);
-                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Timber.e(task.getException(), "Fetching FCM registration token failed");
-                        return;
-                    }
-                    String token = task.getResult();
-                    L.e("FCM Token: " + token);
-                    OpenIMClient.getInstance().updateFcmToken(new OnBase<String>() {
-                        @Override
-                        public void onError(int code, String error) {
-                            L.e("FCM ERROR: "+code+error);
-                        }
-
-                        @Override
-                        public void onSuccess(String data) {
-                            L.e("FCM SUCCESS: " + data);
-                        }
-                    }, token, 604800L);
-                });
-            } else {
-                L.e("Google Play Services is not available");
-            }
-        });
-    }
-
-    public void clearOfflineNotificationConfig(@NonNull Context context, @NonNull String userId) {
-        new HasPermissions(context, Permission.NOTIFICATION_SERVICE).safeGo(() -> {
-            FirebaseMessaging.getInstance().deleteToken();
-        });
-    }
+    // FCM 推送已移除，以下方法保留供后期参考
+    //public void initOfflineNotificationConfig(@NonNull Context context, @NonNull String userId) {
+    //    new HasPermissions(context, Permission.NOTIFICATION_SERVICE).safeGo(() -> {
+    //        int gmsAvailableStatus = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context);
+    //        if (gmsAvailableStatus == ConnectionResult.SUCCESS) {
+    //            FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+    //            FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(true);
+    //            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+    //                if (!task.isSuccessful()) {
+    //                    Timber.e(task.getException(), "Fetching FCM registration token failed");
+    //                    return;
+    //                }
+    //                String token = task.getResult();
+    //                L.e("FCM Token: " + token);
+    //                OpenIMClient.getInstance().updateFcmToken(new OnBase<String>() {
+    //                    @Override
+    //                    public void onError(int code, String error) {
+    //                        L.e("FCM ERROR: "+code+error);
+    //                    }
+    //
+    //                    @Override
+    //                    public void onSuccess(String data) {
+    //                        L.e("FCM SUCCESS: " + data);
+    //                    }
+    //                }, token, 604800L);
+    //            });
+    //        } else {
+    //            L.e("Google Play Services is not available");
+    //        }
+    //    });
+    //}
+    //
+    //public void clearOfflineNotificationConfig(@NonNull Context context, @NonNull String userId) {
+    //    new HasPermissions(context, Permission.NOTIFICATION_SERVICE).safeGo(() -> {
+    //        FirebaseMessaging.getInstance().deleteToken();
+    //    });
+    //}
 
     private void displaySyncProgressDialog(Context context) {
         try {

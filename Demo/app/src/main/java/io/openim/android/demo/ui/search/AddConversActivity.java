@@ -6,8 +6,8 @@ import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.therouter.router.Route;
+import com.therouter.TheRouter;
 import com.hjq.permissions.Permission;
 
 import io.openim.android.demo.databinding.ActivityAddFriendBinding;

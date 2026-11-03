@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="io.openim.android.demo">
+>
     <!--hardwareAccelerated=false livekit 会出问题 -->
     <application
         android:name=".DemoApplication"
@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
         <meta-data android:name="ScopedStorage" android:value="true" />
+
+        <!-- FCM 推送已移除，保留供后期参考 -->
+        <!--
         <service
             android:name=".services.MyFirebaseMessagingService"
             android:exported="false" >
@@ -31,6 +34,8 @@
         <meta-data
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
+        -->
+
         <activity
             android:name=".ui.user.ChangePasswordActivity"
             android:exported="false" />

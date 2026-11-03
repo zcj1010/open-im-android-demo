@@ -4,7 +4,7 @@ package io.openim.android.demo.ui.search;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
+import com.therouter.router.Route;
 
 import io.openim.android.demo.databinding.ActivitySendVerifyBinding;
 import io.openim.android.ouicore.utils.Constants;

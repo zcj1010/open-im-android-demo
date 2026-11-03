@@ -9,7 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
+import com.therouter.router.Route;
 
 import io.openim.android.demo.ui.login.LoginActivity;
 import io.openim.android.demo.ui.main.MainActivity;

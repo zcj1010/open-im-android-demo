@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModel;
 
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.therouter.TheRouter;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -131,8 +131,8 @@ public class PersonalFragment extends BaseFragment implements Observer {
                     @Override
                     public void onSuccess(String data) {
                         waitDialog.dismiss();
-                        if (mainVM != null)
-                            mainVM.clearOfflineNotificationConfig(ActivityManager.getActivityStack().pop(), BaseApp.inst().loginCertificate.userID);
+                        //if (mainVM != null)
+                        //    mainVM.clearOfflineNotificationConfig(ActivityManager.getActivityStack().pop(), BaseApp.inst().loginCertificate.userID);
                         IMUtil.logout((AppCompatActivity) getActivity(), LoginActivity.class);
                     }
                 });

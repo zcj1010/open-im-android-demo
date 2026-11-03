@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.therouter.router.Route;
+import com.therouter.TheRouter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,7 +156,7 @@ public class SearchContactActivity extends BaseActivity<SearchVM, ActivitySearch
                     context.startActivity(new Intent(context,
                         PersonDetailActivity.class).putExtra(Constants.K_ID, title.key));
                 else
-                    ARouter.getInstance().build(Routes.Group.DETAIL)
+                    TheRouter.build(Routes.Group.DETAIL)
                         .withString(Constants.K_GROUP_ID,
                             title.key).navigation();
             });

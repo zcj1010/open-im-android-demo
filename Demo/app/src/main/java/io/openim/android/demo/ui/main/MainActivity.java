@@ -4,17 +4,13 @@ package io.openim.android.demo.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RadioButton;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.therouter.router.Route;
+import com.therouter.TheRouter;
 import com.alibaba.fastjson.JSONArray;
 
 import java.util.Map;
@@ -29,19 +25,16 @@ import io.openim.android.demo.vm.MainVM;
 import io.openim.android.ouicontact.ui.fragment.ContactFragment;
 import io.openim.android.ouiconversation.ui.fragment.ConversationListFragment;
 import io.openim.android.ouicore.base.BaseActivity;
-import io.openim.android.ouicore.base.BaseApp;
 import io.openim.android.ouicore.base.BaseFragment;
 import io.openim.android.ouicore.base.vm.injection.Easy;
 import io.openim.android.ouicore.im.IMEvent;
 import io.openim.android.ouicore.im.IMUtil;
 import io.openim.android.ouicore.net.bage.GsonHel;
 import io.openim.android.ouicore.services.CallingService;
-import io.openim.android.ouicore.utils.ActivityManager;
 import io.openim.android.ouicore.utils.Common;
 import io.openim.android.ouicore.utils.Constants;
 import io.openim.android.ouicore.utils.Routes;
 import io.openim.android.ouicore.vm.NotificationVM;
-import io.openim.android.ouicore.vm.UserLogic;
 import io.openim.android.sdk.listener.OnAdvanceMsgListener;
 import io.openim.android.sdk.models.CustomElem;
 import io.openim.android.sdk.models.SignalingInfo;
@@ -52,12 +45,12 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
 
     private int mCurrentTabIndex;
     private BaseFragment lastFragment, conversationListFragment, contactFragment,
-        personalFragment, appletFragment;
+        personalFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         bindVM(MainVM.class);
-        init(getIntent());
+        //init(getIntent());
         vm.fromLogin = getIntent().getBooleanExtra(LoginActivity.FORM_LOGIN, false);
         bindViewDataBinding(ActivityMainBinding.inflate(getLayoutInflater()));
         super.onCreate(savedInstanceState);
@@ -76,12 +69,13 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
     }
 
 
-    private void init(Intent intent) {
-        Easy.find(UserLogic.class).loginCacheUser(userId -> {
-            if (!TextUtils.isEmpty(userId))
-                vm.initOfflineNotificationConfig(MainActivity.this, userId);
-        });
-    }
+    // FCM 推送已移除，保留供后期参考
+    //private void init(Intent intent) {
+    //    Easy.find(UserLogic.class).loginCacheUser(userId -> {
+    //        if (!TextUtils.isEmpty(userId))
+    //            vm.initOfflineNotificationConfig(MainActivity.this, userId);
+    //    });
+    //}
 
     private void listener() {
         vm.totalUnreadMsgCount.observe(this, v -> Common.buildBadgeView(this, view.men1, v));
@@ -89,7 +83,7 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
     }
 
     private void handleCallingMsg() {
-        CallingService callingService = (CallingService) ARouter.getInstance().build(Routes.Service.CALLING).navigation();
+        CallingService callingService = TheRouter.get(CallingService.class);
         if (callingService != null) {
             IMEvent.getInstance().addAdvanceMsgListener(new OnAdvanceMsgListener() {
                 @Override
@@ -149,11 +143,10 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            RadioButton[] menus = new RadioButton[]{view.men1, view.men2, view.men3, view.men4};
+            RadioButton[] menus = new RadioButton[]{view.men1, view.men2, view.men4};
             if (v == view.men1)
                 switchFragment(conversationListFragment);
             if (v == view.men2) switchFragment(contactFragment);
-            if (v == view.men3) switchFragment(appletFragment);
             if (v == view.men4) switchFragment(personalFragment);
             for (RadioButton menu : menus) {
                 menu.setChecked(menu == v);
@@ -164,7 +157,6 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
     private void click() {
         view.men1.setOnClickListener(clickListener);
         view.men2.setOnClickListener(clickListener);
-        view.men3.setOnClickListener(clickListener);
         view.men4.setOnClickListener(clickListener);
     }
 
@@ -172,8 +164,8 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
     @Override
     public void jump() {
         //token过期
-        if (vm != null)
-            vm.clearOfflineNotificationConfig(ActivityManager.getActivityStack().pop(), BaseApp.inst().loginCertificate.userID);
+        //if (vm != null)
+        //    vm.clearOfflineNotificationConfig(ActivityManager.getActivityStack().pop(), BaseApp.inst().loginCertificate.userID);
         IMUtil.logout(this, LoginActivity.class);
     }
 
@@ -190,22 +182,13 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
     @Override
     public void initDate() {
         contactFragment =
-            (ContactFragment) ARouter.getInstance().build(Routes.Contact.HOME).navigation();
+            TheRouter.build(Routes.Contact.HOME).createFragment();
         conversationListFragment =
-            (ConversationListFragment) ARouter.getInstance().build(Routes.Conversation.CONTACT_LIST).navigation();
+            TheRouter.build(Routes.Conversation.CONTACT_LIST).createFragment();
         personalFragment = PersonalFragment.newInstance().setParentViewModel(vm);
-        appletFragment =
-            (BaseFragment) ARouter.getInstance().build(Routes.Applet.HOME).navigation();
 
         personalFragment.setPage(4);
         switchFragment(personalFragment);
-
-        if (null != appletFragment) {
-            appletFragment.setPage(3);
-            switchFragment(appletFragment);
-        } else {
-            view.men3.setVisibility(View.GONE);
-        }
 
         if (null != contactFragment) {
             contactFragment.setPage(2);

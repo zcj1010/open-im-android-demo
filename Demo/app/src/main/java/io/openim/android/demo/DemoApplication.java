@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import androidx.multidex.MultiDex;
 
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.therouter.TheRouter;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
@@ -39,7 +39,7 @@ public class DemoApplication extends BaseApp {
         MultiDex.install(this);
 
         initFile();
-        initARouter();
+        initTheRouter();
         initController();
         initNet();
         initBugly();
@@ -65,12 +65,9 @@ public class DemoApplication extends BaseApp {
         return file.mkdirs();
     }
 
-    private void initARouter() {
-        ARouter.init(this);
-//        if (io.openim.android.demo.BuildConfig.DEBUG){
-//            ARouter.openLog();
-//            ARouter.openDebug();
-//        }
+    private void initTheRouter() {
+        // TheRouter 由 ContentProvider 自动初始化，这里仅开启调试日志
+        TheRouter.setDebug(BuildConfig.DEBUG);
     }
 
     private void initBugly() {
