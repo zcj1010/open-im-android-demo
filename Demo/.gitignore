@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# TheRouter 构建时自动生成的路由表
+app/src/main/assets/therouter/

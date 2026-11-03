@@ -1,0 +1,154 @@
+# Gradle 版本目录：所有依赖版本与坐标的唯一来源
+# 访问方式：build.gradle.kts 中使用 libs.xxx（由 Gradle 自动从本文件生成）
+
+[versions]
+# 全局构建配置（原 config.gradle）
+minSdk = "24"
+targetSdk = "32"
+compileSdk = "33"
+versionCode = "9"
+versionName = "3.8.3"
+applicationId = "io.openim.android.os.demo"
+
+# 构建插件
+agp = "8.6.1"
+kotlin = "1.9.24"
+#googleServices = "4.4.2" # FCM 移除，保留供后期参考
+therouter = "1.3.2"
+realm = "10.19.0"
+
+# AndroidX / UI
+appcompat = "1.4.0"
+material = "1.5.0"
+constraintlayout = "2.0.4"
+legacySupport = "1.0.0"
+coreKtx = "1.8.0"
+lifecycle = "2.5.1"
+lifecycleViewmodel = "2.4.0"
+activityKtx = "1.4.0"
+multidex = "2.0.1"
+junit = "4.13.2"
+androidxTestJunit = "1.1.3"
+espresso = "3.4.0"
+
+# OpenIM SDK / 推送 / 音视频
+openimSdkCore = "3.8.3-patch3"
+openimSdk = "3.8.3.1"
+protobuf = "3.22.0"
+livekit = "2.0.1"
+
+# 网络 / 序列化
+rxjava = "2.2.21"
+retrofit = "2.9.0"
+okhttpLogging = "4.12.0"
+gson = "2.9.1"
+fastjson = "2.0.18.android"
+
+# 业务组件库
+glide = "4.16.0"
+pictureselector = "v3.11.2"
+ucrop = "2.2.10"
+circularprogressbar = "3.1.0"
+avi = "2.1.3"
+tinypinyin = "2.0.3"
+recyclerviewx = "1.3.2"
+xxpermissions = "18.5"
+shadowlayout = "3.4.0"
+sortletter = "1.0.9"
+pickerview = "4.1.9"
+watermarkview = "1.1.2"
+roundimageview = "1.2.0"
+flowlayoutmanager = "1.8.0"
+emoji = "0.16.0"
+okdownload = "1.0.7"
+badgeview = "1.1.3"
+bugly = "latest.release"
+autoupdate = "2.0.5"
+timberkt = "1.5.1"
+lottie = "5.0.3"
+camera = "1.1.9"
+jiaozivideoplayer = "7.7.0"
+verificationcode = "1.0.2"
+badgebutton = "1.1.0"
+ccp = "2.6.1"
+easyWindow = "10.2"
+
+[libraries]
+# 构建期（root buildscript classpath）
+therouter-plugin = { module = "cn.therouter:plugin", version.ref = "therouter" }
+realm-gradle-plugin = { module = "io.realm:realm-gradle-plugin", version.ref = "realm" }
+
+# 路由
+therouter = { module = "cn.therouter:router", version.ref = "therouter" }
+therouter-apt = { module = "cn.therouter:apt", version.ref = "therouter" }
+
+# AndroidX / UI
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupport" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodel" }
+activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
+multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
+kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
+
+# 测试
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunit" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+
+# OpenIM SDK / 推送 / 音视频
+openim-core-sdk = { module = "io.openim:core-sdk", version.ref = "openimSdkCore" }
+openim-android-sdk = { module = "io.openim:android-sdk", version.ref = "openimSdk" }
+livekit-android = { module = "io.livekit:livekit-android", version.ref = "livekit" }
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
+#firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" } # FCM 移除，保留供后期参考
+
+# 网络 / 序列化
+rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" }
+retrofit-adapter-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version.ref = "retrofit" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttpLogging" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+fastjson = { module = "com.alibaba:fastjson", version.ref = "fastjson" }
+
+# 业务组件库
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+pictureselector = { module = "io.github.lucksiege:pictureselector", version.ref = "pictureselector" }
+ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
+circularprogressbar = { module = "com.mikhaellopez:circularprogressbar", version.ref = "circularprogressbar" }
+avi = { module = "com.wang.avi:library", version.ref = "avi" }
+tinypinyin = { module = "com.github.promeg:tinypinyin", version.ref = "tinypinyin" }
+tinypinyin-lexicons = { module = "com.github.promeg:tinypinyin-lexicons-android-cncity", version.ref = "tinypinyin" }
+recyclerview-x = { module = "com.yanzhenjie.recyclerview:x", version.ref = "recyclerviewx" }
+xxpermissions = { module = "com.github.getActivity:XXPermissions", version.ref = "xxpermissions" }
+shadowlayout = { module = "com.github.lihangleo2:ShadowLayout", version.ref = "shadowlayout" }
+sortletter = { module = "com.github.maogedadada:SortLetter-Master", version.ref = "sortletter" }
+pickerview = { module = "com.contrarywind:Android-PickerView", version.ref = "pickerview" }
+watermarkview = { module = "com.github.AurelionX:WaterMarkView", version.ref = "watermarkview" }
+roundimageview = { module = "org.raphets:roundimageview", version.ref = "roundimageview" }
+flowlayoutmanager = { module = "com.github.simonebortolin:FlowLayoutManager", version.ref = "flowlayoutmanager" }
+emoji-android = { module = "com.vanniktech:emoji-android", version.ref = "emoji" }
+emoji-google = { module = "com.vanniktech:emoji-google-android", version.ref = "emoji" }
+okdownload = { module = "com.liulishuo.okdownload:okdownload", version.ref = "okdownload" }
+okdownload-sqlite = { module = "com.liulishuo.okdownload:sqlite", version.ref = "okdownload" }
+badgeview = { module = "q.rorbin:badgeview", version.ref = "badgeview" }
+bugly = { module = "com.tencent.bugly:crashreport", version.ref = "bugly" }
+autoupdate = { module = "com.github.MZCretin:AutoUpdateProject", version.ref = "autoupdate" }
+timberkt = { module = "com.github.ajalt:timberkt", version.ref = "timberkt" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+camera-view = { module = "cjt.library.wheel:camera", version.ref = "camera" }
+jiaozivideoplayer = { module = "cn.jzvd:jiaozivideoplayer", version.ref = "jiaozivideoplayer" }
+verificationcodeinputview = { module = "com.github.Wynsbin:VerificationCodeInputView", version.ref = "verificationcode" }
+easywindow = { module = "com.github.getActivity:EasyWindow", version.ref = "easyWindow" }
+badgebutton = { module = "com.github.czy1121:badgebutton", version.ref = "badgebutton" }
+ccp = { module = "com.hbb20:ccp", version.ref = "ccp" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+#google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" } # FCM 移除，保留供后期参考
