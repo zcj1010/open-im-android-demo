@@ -1,16 +1,12 @@
 package io.openim.android.ouiconversation.ui.fragment;
 
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -31,8 +27,6 @@ import com.therouter.router.Route;
 import com.therouter.TheRouter;
 import com.hjq.permissions.Permission;
 import com.yanzhenjie.recyclerview.OnItemClickListener;
-import com.yanzhenjie.recyclerview.SwipeMenuCreator;
-import com.yanzhenjie.recyclerview.SwipeMenuItem;
 
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +35,7 @@ import java.util.Observer;
 
 import io.openim.android.ouiconversation.R;
 
+import io.openim.android.ouiconversation.adapter.ConversationAdapter;
 import io.openim.android.ouiconversation.databinding.FragmentContactListBinding;
 import io.openim.android.ouiconversation.databinding.LayoutAddActionBinding;
 import io.openim.android.ouiconversation.ui.ChatActivity;
@@ -50,22 +45,18 @@ import io.openim.android.ouicore.ex.MultipleChoice;
 import io.openim.android.ouicore.utils.Constants;
 import io.openim.android.ouicore.utils.HasPermissions;
 import io.openim.android.ouicore.utils.Obs;
-import io.openim.android.ouicore.utils.OnDedrepClickListener;
 import io.openim.android.ouicore.utils.SinkHelper;
 import io.openim.android.ouicore.vm.ContactListVM;
-import io.openim.android.ouicore.adapter.ViewHol;
 import io.openim.android.ouicore.base.BaseApp;
 import io.openim.android.ouicore.base.BaseFragment;
 import io.openim.android.ouicore.entity.MsgConversation;
 import io.openim.android.ouicore.utils.Common;
 import io.openim.android.ouicore.utils.Routes;
-import io.openim.android.ouicore.utils.TimeUtil;
 import io.openim.android.ouicore.vm.GroupVM;
 import io.openim.android.ouicore.vm.SelectTargetVM;
 import io.openim.android.ouicore.vm.UserLogic;
 import io.openim.android.sdk.OpenIMClient;
 import io.openim.android.sdk.enums.ConversationType;
-import io.openim.android.sdk.enums.Opt;
 import io.openim.android.sdk.models.ConversationInfo;
 import io.openim.android.sdk.models.ConversationReq;
 import io.openim.android.sdk.models.FriendInfo;
@@ -76,7 +67,7 @@ public class ConversationListFragment extends BaseFragment<ContactListVM> implem
     private long mLastClickTime;
 
     private FragmentContactListBinding view;
-    private CustomAdapter adapter;
+    private ConversationAdapter adapter;
     private HasPermissions hasScanPermission;
     private final UserLogic user = Easy.find(UserLogic.class);
     private final HashSet<Integer> slideSet = new HashSet<>();
@@ -155,7 +146,7 @@ public class ConversationListFragment extends BaseFragment<ContactListVM> implem
         view.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ChatVM chatVM = new ChatVM();
 
-        adapter = new CustomAdapter(onItemClickListener);
+        adapter = new ConversationAdapter(onItemClickListener);
         view.recyclerView.setAdapter(adapter);
         view.recyclerView.setItemAnimator(null);
 
@@ -176,12 +167,12 @@ public class ConversationListFragment extends BaseFragment<ContactListVM> implem
             R.anim.animation_repeat_spinning);
         Easy.find(UserLogic.class).connectStatus
             .observe(getActivity(), connectStatus -> {
-                if (connectStatus == UserLogic.ConnectStatus.CONNECTING
-                    || connectStatus == UserLogic.ConnectStatus.SYNCING) {
-                    view.status.startAnimation(animation);
-                } else {
-                    view.status.clearAnimation();
-                }
+//                if (connectStatus == UserLogic.ConnectStatus.CONNECTING
+//                    || connectStatus == UserLogic.ConnectStatus.SYNCING) {
+//                    view.status.startAnimation(animation);
+//                } else {
+//                    view.status.clearAnimation();
+//                }
             });
 
 
@@ -198,18 +189,18 @@ public class ConversationListFragment extends BaseFragment<ContactListVM> implem
     }
 
     private void initHeader() {
-        view.avatar.load(null, null);
-        if (BaseApp.inst().loginCertificate != null) {
-            view.avatar.load(BaseApp.inst().loginCertificate.faceURL, BaseApp.inst().loginCertificate.nickname);
-            view.name.setText(BaseApp.inst().loginCertificate.nickname);
-        }
+//        view.avatar.load(null, null);
+//        if (BaseApp.inst().loginCertificate != null) {
+//            view.avatar.load(BaseApp.inst().loginCertificate.faceURL, BaseApp.inst().loginCertificate.nickname);
+//            view.name.setText(BaseApp.inst().loginCertificate.nickname);
+//        }
         user.info.observe(getActivity(), v -> {
-            if (v != null) {
-                view.avatar.load(v.getFaceURL(), v.getNickname());
-                view.name.setText(v.getNickname());
-            }
+//            if (v != null) {
+//                view.avatar.load(v.getFaceURL(), v.getNickname());
+//                view.name.setText(v.getNickname());
+//            }
         });
-        view.addFriend.setOnClickListener(this::showPopupWindow);
+//        view.addFriend.setOnClickListener(this::showPopupWindow);
     }
 
 
@@ -284,70 +275,7 @@ public class ConversationListFragment extends BaseFragment<ContactListVM> implem
         super.onSuccess(body);
     }
 
-    static class CustomAdapter extends RecyclerView.Adapter<ViewHol.ContactItemHolder> {
 
-        private List<MsgConversation> conversationInfos;
-        private OnItemClickListener itemClickListener;
-
-        public CustomAdapter(OnItemClickListener itemClickListener) {
-            this.itemClickListener = itemClickListener;
-        }
-
-        public void setConversationInfos(List<MsgConversation> conversationInfos) {
-            this.conversationInfos = conversationInfos;
-            notifyItemChanged(1);
-        }
-
-        @Override
-        public ViewHol.ContactItemHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            return new ViewHol.ContactItemHolder(viewGroup);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHol.ContactItemHolder viewHolder, int position) {
-            final int index = position;
-            viewHolder.viewBinding.getRoot().setOnClickListener(new OnDedrepClickListener() {
-                @Override
-                public void click(View v) {
-                    if (null != itemClickListener)
-                        itemClickListener.onItemClick(v, index);
-                }
-            });
-            MsgConversation msgConversation = conversationInfos.get(position);
-            boolean isGroup =
-                msgConversation.conversationInfo.getConversationType() != ConversationType.SINGLE_CHAT;
-            viewHolder.viewBinding.avatar.load(msgConversation.conversationInfo.getFaceURL(),
-                isGroup, isGroup ? null : msgConversation.conversationInfo.getShowName());
-            viewHolder.viewBinding.nickName.setText(msgConversation.conversationInfo.getShowName());
-
-            if (msgConversation.conversationInfo.getRecvMsgOpt() != Opt.NORMAL) {
-                viewHolder.viewBinding.noDisturbTips
-                    .setVisibility(msgConversation.conversationInfo.getUnreadCount() > 0 ?
-                        View.VISIBLE : View.GONE);
-                viewHolder.viewBinding.noDisturbIc.setVisibility(View.VISIBLE);
-                viewHolder.viewBinding.badge.badge.setVisibility(View.GONE);
-            } else {
-                viewHolder.viewBinding.badge.badge.setVisibility(View.VISIBLE);
-                viewHolder.viewBinding.noDisturbTips.setVisibility(View.GONE);
-                viewHolder.viewBinding.noDisturbIc.setVisibility(View.GONE);
-                int count = msgConversation.conversationInfo.getUnreadCount();
-                viewHolder.viewBinding.badge.badge.setVisibility(count != 0 ? View.VISIBLE :
-                    View.GONE);
-                viewHolder.viewBinding.badge.badge.setText(count >= 100 ? "99+" : String.valueOf(count));
-            }
-            viewHolder.viewBinding.time.setText(TimeUtil.getTimeString(msgConversation.conversationInfo.getLatestMsgSendTime()));
-
-            viewHolder.viewBinding.setTop.setVisibility(msgConversation.conversationInfo.isPinned() ? View.VISIBLE : View.GONE);
-
-            CharSequence lastMsg = msgConversation.lastMsg;
-            viewHolder.viewBinding.lastMsg.setText(lastMsg);
-        }
-
-        @Override
-        public int getItemCount() {
-            return null == conversationInfos ? 0 : conversationInfos.size();
-        }
-    }
 
     @Override
     public void onDestroy() {
@@ -355,8 +283,8 @@ public class ConversationListFragment extends BaseFragment<ContactListVM> implem
         BaseApp.inst().removeCacheVM(vm.getClass());
         Obs.inst().deleteObserver(this);
 
-        Animation animation = view.status.getAnimation();
-        if (null != animation) animation.cancel();
+//        Animation animation = view.status.getAnimation();
+//        if (null != animation) animation.cancel();
     }
 
     @Override

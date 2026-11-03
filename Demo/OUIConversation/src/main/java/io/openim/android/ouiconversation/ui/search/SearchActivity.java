@@ -196,16 +196,16 @@ public class SearchActivity extends BaseActivity<SearchVM, ActivitySearchBinding
                     case GROUP:
                         ViewHol.ContactItemHolder contactItemHolder =
                             (ViewHol.ContactItemHolder) holder;
-                        contactItemHolder.viewBinding.bottom.setVisibility(View.VISIBLE);
-                        contactItemHolder.viewBinding.expand.setVisibility(View.VISIBLE);
+//                        contactItemHolder.viewBinding.bottom.setVisibility(View.VISIBLE);
+//                        contactItemHolder.viewBinding.expand.setVisibility(View.VISIBLE);
                         if (data instanceof UserInfo) {
                             //联系人
                             UserInfo da = (UserInfo) data;
                             contactItemHolder.viewBinding.avatar.load(da.getFaceURL());
                             Common.stringBindForegroundColorSpan(contactItemHolder.viewBinding.nickName, da.getNickname(), vm.searchContent.getValue());
-                            if (TextUtils.isEmpty(da.getRemark()))
-                                contactItemHolder.viewBinding.bottom.setVisibility(View.GONE);
-                            else {
+                            if (TextUtils.isEmpty(da.getRemark())) {
+//                                contactItemHolder.viewBinding.bottom.setVisibility(View.GONE);
+                            } else {
                                 contactItemHolder.viewBinding.lastMsg.setText(getString(io.openim.android.ouicore.R.string.remark) + ":"
                                     + da.getRemark());
                             }
@@ -216,8 +216,8 @@ public class SearchActivity extends BaseActivity<SearchVM, ActivitySearchBinding
                         }
                         if ((data instanceof GroupInfo)) {
                             //群组
-                            contactItemHolder.viewBinding.bottom.setVisibility(View.GONE);
-                            contactItemHolder.viewBinding.expand.setVisibility(View.GONE);
+//                            contactItemHolder.viewBinding.bottom.setVisibility(View.GONE);
+//                            contactItemHolder.viewBinding.expand.setVisibility(View.GONE);
                             GroupInfo groupInfo = (GroupInfo) data;
                             contactItemHolder.viewBinding.avatar.load(groupInfo.getFaceURL());
                             Common.stringBindForegroundColorSpan(contactItemHolder.viewBinding.nickName, groupInfo.getGroupName(), vm.searchContent.getValue());

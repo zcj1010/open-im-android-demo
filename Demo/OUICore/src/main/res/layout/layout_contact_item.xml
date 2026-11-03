@@ -1,121 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:clickable="true"
-    android:layout_height="wrap_content"
-    android:focusable="true">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingTop="7dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="7dp">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_width="49dp"
-            android:layout_height="49dp">
-
-            <io.openim.android.ouicore.widget.AvatarImage
-                android:id="@+id/avatar"
-                android:layout_width="@dimen/avatar_size"
-                android:layout_height="@dimen/avatar_size"
-                android:src="@mipmap/ic_my_friend" />
-
-            <View
-                android:id="@+id/noDisturbTips"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/sty_radius_30_red"
-                android:visibility="gone" />
-        </RelativeLayout>
-
-
-        <LinearLayout
+        <View
+            android:id="@+id/topBgView"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="12dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:background="#F3F6F1"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+        <io.openim.android.ouicore.widget.AvatarImage
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_marginVertical="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_16"
+            android:src="@mipmap/ic_my_friend"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        <View-->
+        <!--            android:id="@+id/noDisturbTips"-->
+        <!--            android:layout_width="8dp"-->
+        <!--            android:layout_height="8dp"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:background="@drawable/sty_radius_30_red" />-->
+
+        <FrameLayout
+            android:id="@+id/infoView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_16"
+            app:layout_constraintEnd_toStartOf="@+id/time"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="@+id/avatar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                app:layout_constrainedWidth="true"
+                app:layout_constraintWidth_default="wrap">
 
                 <TextView
                     android:id="@+id/nickName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/txt_black"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textColor="@color/txt_shallow"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/expand"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:id="@+id/bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="3dp">
-
-                <com.vanniktech.emoji.EmojiTextView
-                    android:id="@+id/lastMsg"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/dp_4"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/txt_shallow"
-                    android:textSize="13sp" />
-
-
-                <include
-                    android:id="@+id/badge"
-                    layout="@layout/view_badge" />
+                    android:textColor="@color/txt_main"
+                    android:textSize="@dimen/txt_15"
+                    android:textStyle="bold"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/setTop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_default="wrap"
+                    tools:text="林小满林小满林小满林小满林小满林小满" />
 
                 <ImageView
-                    android:id="@+id/noDisturbIc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_not_msg"
-                    android:visibility="gone" />
+                    android:id="@+id/setTop"
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_15"
+                    android:src="@drawable/ic_top_mark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
 
-            </LinearLayout>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:maxLines="1"
+            android:textColor="@color/txt_auxiliary"
+            android:textSize="@dimen/txt_9"
+            app:layout_constraintBottom_toBottomOf="@+id/infoView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/infoView"
+            tools:text="8分钟前" />
 
 
-    </LinearLayout>
+        <com.vanniktech.emoji.EmojiTextView
+            android:id="@+id/lastMsg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/txt_theme"
+            android:textSize="@dimen/txt_12"
+            app:layout_constraintBottom_toBottomOf="@+id/avatar"
+            app:layout_constraintEnd_toStartOf="@+id/badge"
+            app:layout_constraintStart_toStartOf="@+id/infoView" />
 
-    <ImageView
-        android:id="@+id/setTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:paddingRight="8dp"
-        android:visibility="gone"
-        android:paddingTop="6dp"
-        android:src="@mipmap/ic_angle_mark" />
-</RelativeLayout>
+
+        <TextView
+            android:id="@+id/badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="@drawable/sty_radius_30_red"
+            android:gravity="center"
+            android:minWidth="@dimen/dp_14"
+            android:minHeight="@dimen/dp_14"
+            android:paddingHorizontal="@dimen/dp_2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_9"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="8" />
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/noDisturbIc"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:src="@mipmap/ic_not_msg" />-->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
 

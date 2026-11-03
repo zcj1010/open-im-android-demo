@@ -156,6 +156,7 @@ public class IMUtil {
 
     /**
      * 是信令消息
+     *
      * @param msg
      * @return
      */
@@ -229,11 +230,11 @@ public class IMUtil {
         for (MultipleChoice choice : choices) {
             buildClickAndColorSpannable((SpannableStringBuilder) sequence, choice.name,
                 new ClickableSpan() {
-                @Override
-                public void onClick(@NonNull View widget) {
-                    toPersonDetail(choice.key, choice.groupId);
-                }
-            });
+                    @Override
+                    public void onClick(@NonNull View widget) {
+                        toPersonDetail(choice.key, choice.groupId);
+                    }
+                });
         }
         return sequence;
     }
@@ -251,11 +252,11 @@ public class IMUtil {
                                                  String txt) {
         return buildClickAndColorSpannable(new SpannableStringBuilder(txt), nickName,
             new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View widget) {
-                toPersonDetail(uid, groupId);
-            }
-        });
+                @Override
+                public void onClick(@NonNull View widget) {
+                    toPersonDetail(uid, groupId);
+                }
+            });
     }
 
     private static void toPersonDetail(String uid, String groupId) {
@@ -272,7 +273,7 @@ public class IMUtil {
                 @Override
                 public void onClick(@NonNull View widget) {
                     try {
-                            widget.getContext().startActivity(new Intent(widget.getContext(), WebViewActivity.class).putExtra(WebViewActivity.LOAD_URL, link));
+                        widget.getContext().startActivity(new Intent(widget.getContext(), WebViewActivity.class).putExtra(WebViewActivity.LOAD_URL, link));
                     } catch (Exception e) {
                         if (!TextUtils.isEmpty(e.getMessage()))
                             L.e(e.getMessage());
@@ -303,7 +304,6 @@ public class IMUtil {
     }
 
 
-
     public static CharSequence getMsgParse(Message msg) {
         return getMsgParse(msg, false);
     }
@@ -323,6 +323,15 @@ public class IMUtil {
                     break;
                 case MessageType.PICTURE:
                     lastMsg += "[" + BaseApp.inst().getString(io.openim.android.ouicore.R.string.picture) + "]";
+                    break;
+                case MessageType.VOICE:
+                    lastMsg += "[" + BaseApp.inst().getString(io.openim.android.ouicore.R.string.voice) + "]";
+                    break;
+                case MessageType.VIDEO:
+                    lastMsg += "[" + BaseApp.inst().getString(R.string.video) + "]";
+                    break;
+                case MessageType.FILE:
+                    lastMsg += "[" + BaseApp.inst().getString(io.openim.android.ouicore.R.string.file) + "]";
                     break;
                 default:
                     lastMsg += "[" + BaseApp.inst().getString(R.string.unsupported_type) + "]";

@@ -1,4 +1,5 @@
 package io.openim.android.ouicore.widget;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -29,7 +30,7 @@ import io.openim.android.ouicore.base.BaseApp;
 public class AvatarImage extends FrameLayout {
     private ImageView roundImageView;
     private TextView nameTv;
-    private int resId=-1;
+    private int resId = -1;
 
     public AvatarImage(@NonNull Context context) {
         super(context);
@@ -56,21 +57,24 @@ public class AvatarImage extends FrameLayout {
             new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
                 , LinearLayout.LayoutParams.MATCH_PARENT);
 
-        roundImageView=new ImageView(context);
+        roundImageView = new ImageView(context);
         roundImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        addView(roundImageView,params);
+        addView(roundImageView, params);
         nameTv = new TextView(context);
         nameTv.setTextColor(Color.WHITE);
         nameTv.setTextSize(14);
         nameTv.setGravity(Gravity.CENTER);
         addView(nameTv, params);
     }
+
     public void load(Object url) {
         load(url, false, null);
     }
+
     public void load(Object url, String name) {
         load(url, false, name);
     }
+
     public void load(Object url, boolean isGroup) {
         load(url, isGroup, null);
     }
@@ -85,7 +89,7 @@ public class AvatarImage extends FrameLayout {
 
         if (resId == -1) {
             resId = isGroup ? R.mipmap.ic_my_group :
-               R.mipmap.ic_my_friend;
+                R.mipmap.ic_my_friend;
         }
         if (null == url || (url instanceof String && (String.valueOf(url).isEmpty()
             || String.valueOf(url).contains("ic_avatar")))) {
@@ -97,7 +101,7 @@ public class AvatarImage extends FrameLayout {
             } else {
                 roundImageView.setVisibility(GONE);
                 nameTv.setVisibility(VISIBLE);
-                name=name.substring(0,1);
+                name = name.substring(0, 1);
                 setBackground(AppCompatResources.getDrawable(getContext(),
                     R.drawable.sty_radius_6_ff0089ff));
                 nameTv.setVisibility(VISIBLE);

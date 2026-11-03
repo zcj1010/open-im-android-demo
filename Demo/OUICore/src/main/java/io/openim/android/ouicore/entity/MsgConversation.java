@@ -39,13 +39,14 @@ public class MsgConversation {
                     NotificationMsg.class);
             }
             if (conversationInfo.getRecvMsgOpt() != Opt.NORMAL
-                && conversationInfo.getUnreadCount()>0) {
+                && conversationInfo.getUnreadCount() > 0) {
                 this.lastMsg =
                     new SpannableStringBuilder("[" + conversationInfo.getUnreadCount() + BaseApp.inst()
-                        .getString(io.openim.android.ouicore.R.string.count)+ "] ")
-                    .append(this.lastMsg);
+                        .getString(io.openim.android.ouicore.R.string.count) + "] ")
+                        .append(this.lastMsg);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
