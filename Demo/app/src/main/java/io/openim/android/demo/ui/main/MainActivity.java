@@ -35,6 +35,7 @@ import io.openim.android.ouicore.utils.Common;
 import io.openim.android.ouicore.utils.Constants;
 import io.openim.android.ouicore.utils.Routes;
 import io.openim.android.ouicore.vm.NotificationVM;
+import io.openim.android.ouicore.vm.UserLogic;
 import io.openim.android.sdk.listener.OnAdvanceMsgListener;
 import io.openim.android.sdk.models.CustomElem;
 import io.openim.android.sdk.models.SignalingInfo;
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         bindVM(MainVM.class);
-        //init(getIntent());
+        init(getIntent());
         vm.fromLogin = getIntent().getBooleanExtra(LoginActivity.FORM_LOGIN, false);
         bindViewDataBinding(ActivityMainBinding.inflate(getLayoutInflater()));
         super.onCreate(savedInstanceState);
@@ -69,13 +70,13 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
     }
 
 
-    // FCM 推送已移除，保留供后期参考
-    //private void init(Intent intent) {
-    //    Easy.find(UserLogic.class).loginCacheUser(userId -> {
-    //        if (!TextUtils.isEmpty(userId))
-    //            vm.initOfflineNotificationConfig(MainActivity.this, userId);
-    //    });
-    //}
+    private void init(Intent intent) {
+        Easy.find(UserLogic.class).loginCacheUser(userId -> {
+            // FCM 推送已移除，保留供后期参考
+//        if (!TextUtils.isEmpty(userId))
+//            vm.initOfflineNotificationConfig(MainActivity.this, userId);
+        });
+    }
 
     private void listener() {
         vm.totalUnreadMsgCount.observe(this, v -> Common.buildBadgeView(this, view.men1, v));
@@ -133,7 +134,7 @@ public class MainActivity extends BaseActivity<MainVM, ActivityMainBinding> impl
 
 
     private void bindDot() {
-        NotificationVM notificationVM=Easy.find(NotificationVM.class);
+        NotificationVM notificationVM = Easy.find(NotificationVM.class);
         notificationVM.friendDot.observe(this, v -> view.badge.setVisibility((notificationVM.hasDot()) ?
             View.VISIBLE : View.GONE));
         notificationVM.groupDot.observe(this, v -> view.badge.setVisibility((notificationVM.hasDot()) ?
