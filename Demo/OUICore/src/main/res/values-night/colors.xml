@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 暗黑模式色值：与 values/colors.xml 中的名称一一对应 -->
+<resources>
+    <!-- ========== 主题色系（暗黑） ========== -->
+    <!-- 颜色体系：背景层 -->
+    <color name="theme_deep">#26342B</color>
+    <color name="theme_selected">#385640</color>
+    <color name="theme_card">#2B3D30</color>
+    <color name="theme_page">#202A24</color>
+    <color name="theme_window">#141B17</color>
+    <!-- 主题色：主色/深主色/强调色 -->
+    <color name="primary">#C9DFC6</color>
+    <color name="primary_dark">#AFC6B3</color>
+    <color name="accent">#ADD46F</color>
+
+    <!-- ========== 文字色系（暗黑） ========== -->
+    <color name="txt_theme">#C9DFC6</color>
+    <color name="txt_main">#E4EAE4</color>
+    <color name="txt_secondary">#A8B7AA</color>
+    <color name="txt_auxiliary">#818E84</color>
+
+</resources>
