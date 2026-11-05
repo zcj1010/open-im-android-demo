@@ -4,11 +4,14 @@
     <!-- rectangle表示为矩形 -->
 
     <!-- 填充的颜色 -->
-    <solid android:color="@color/bubble2" />
+    <solid android:color="@color/gray_f4" />
 
 
     <corners
-        android:radius="8dp"
-        android:topLeftRadius="0dp" />
+        android:topRightRadius="@dimen/dp_8"
+        android:topLeftRadius="0dp"
+        android:bottomLeftRadius="@dimen/dp_8"
+        android:bottomRightRadius="@dimen/dp_8"
+        />
 
 </shape>

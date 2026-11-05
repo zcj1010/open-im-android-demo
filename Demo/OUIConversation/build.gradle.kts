@@ -50,6 +50,9 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.camera.view)
     implementation(libs.jiaozivideoplayer)
+    // pu-apm is a local AAR, so its Media3 implementation dependencies are not transitive.
+    implementation("androidx.media3:media3-exoplayer:1.4.1")
+    implementation("androidx.media3:media3-datasource:1.4.1")
 
     implementation(libs.therouter)
     kapt(libs.therouter.apt)

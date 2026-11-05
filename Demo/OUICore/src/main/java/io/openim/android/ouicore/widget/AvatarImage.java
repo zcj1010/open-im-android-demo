@@ -96,14 +96,19 @@ public class AvatarImage extends FrameLayout {
             if (TextUtils.isEmpty(name)) {
                 roundImageView.setVisibility(VISIBLE);
                 nameTv.setVisibility(GONE);
-                roundImageView.setImageDrawable(AppCompatResources.getDrawable(getContext(),
-                    resId));
+                Glide.with(BaseApp.inst())
+                    .load(resId)
+                    .placeholder(resId)
+                    .error(resId)
+                    .centerInside()
+                    .transform(new CircleCrop())
+                    .into(roundImageView);
+//                roundImageView.setImageDrawable(AppCompatResources.getDrawable(getContext(), resId));
             } else {
                 roundImageView.setVisibility(GONE);
                 nameTv.setVisibility(VISIBLE);
                 name = name.substring(0, 1);
-                setBackground(AppCompatResources.getDrawable(getContext(),
-                    R.drawable.sty_radius_6_ff0089ff));
+                setBackground(AppCompatResources.getDrawable(getContext(), R.drawable.sty_radius_30_ff0089ff));
                 nameTv.setVisibility(VISIBLE);
                 nameTv.setText(name);
             }

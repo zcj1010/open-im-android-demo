@@ -5,7 +5,7 @@
 # 全局构建配置（原 config.gradle）
 minSdk = "24"
 targetSdk = "32"
-compileSdk = "33"
+compileSdk = "34"
 versionCode = "9"
 versionName = "3.8.3"
 applicationId = "io.openim.android.os.demo"

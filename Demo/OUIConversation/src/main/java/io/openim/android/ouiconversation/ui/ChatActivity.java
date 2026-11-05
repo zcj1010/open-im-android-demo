@@ -109,8 +109,7 @@ public class ChatActivity extends BaseActivity<ChatVM, ActivityChatBinding> impl
         bindViewDataBinding(ActivityChatBinding.inflate(getLayoutInflater()));
         sink();
         view.setChatVM(vm);
-        callingService =
-            TheRouter.get(CallingService.class);
+        callingService = TheRouter.get(CallingService.class);
 
         initView();
         listener();
@@ -199,6 +198,8 @@ public class ChatActivity extends BaseActivity<ChatVM, ActivityChatBinding> impl
         view.waterMark.onDestroy();
         Obs.inst().deleteObserver(this);
         getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(mGlobalLayoutListener);
+        if (bottomInputCote != null) bottomInputCote.release();
+        if (messageAdapter != null) messageAdapter.release();
         try {
             SPlayer.instance().stop();
         } catch (Exception ignore) {
@@ -579,6 +580,8 @@ public class ChatActivity extends BaseActivity<ChatVM, ActivityChatBinding> impl
         super.onPause();
         screenWasOff = !powerManager.isScreenOn();
         vm.mTypingState.postValue(false);
+        if (bottomInputCote != null) bottomInputCote.cancelRecording();
+        if (messageAdapter != null) messageAdapter.stopVoicePlayback();
     }
 
     @Override

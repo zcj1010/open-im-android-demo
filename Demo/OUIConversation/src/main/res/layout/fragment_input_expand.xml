@@ -2,11 +2,9 @@
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="13dp"
-    android:paddingTop="5dp"
-    android:background="@color/theme_bg2"
-    android:paddingRight="13dp"
-    android:paddingBottom="20dp"
-    android:overScrollMode="never">
+    android:background="@drawable/im_corners_14_solid_e9efe5_top"
+    android:overScrollMode="never"
+    android:paddingHorizontal="@dimen/dp_16"
+    android:paddingVertical="@dimen/dp_24">
 
 </androidx.recyclerview.widget.RecyclerView>

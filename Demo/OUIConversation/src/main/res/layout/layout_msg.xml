@@ -12,35 +12,29 @@
             android:id="@+id/choose"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:button="@null"
-            android:scaleY="1.2"
-            android:scaleX="1.2"
             android:layout_margin="3dp"
+            android:button="@null"
             android:drawableLeft="@drawable/selector_checkbox"
             android:paddingLeft="15dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
             android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/notice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="3dp"
-                android:background="@drawable/sty_radius_4_bubble2"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="3dp"
+                android:layout_marginTop="@dimen/dp_26"
+                android:layout_marginBottom="@dimen/dp_16"
                 android:textColor="#ff999999"
-                android:layout_marginBottom="3dp"
-                android:textSize="12sp"
+                android:textSize="@dimen/txt_12"
                 android:visibility="gone" />
 
             <ViewStub

@@ -1,6 +1,9 @@
 package io.openim.android.ouiconversation.adapter;
 
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -31,6 +34,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.therouter.TheRouter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,12 +47,15 @@ import io.openim.android.ouiconversation.databinding.LayoutMsgImgLeftBinding;
 import io.openim.android.ouiconversation.databinding.LayoutMsgImgRightBinding;
 import io.openim.android.ouiconversation.databinding.LayoutMsgTxtLeftBinding;
 import io.openim.android.ouiconversation.databinding.LayoutMsgTxtRightBinding;
+import io.openim.android.ouiconversation.databinding.LayoutMsgVoiceLeftBinding;
+import io.openim.android.ouiconversation.databinding.LayoutMsgVoiceRightBinding;
 import io.openim.android.ouiconversation.ui.ChatActivity;
 import io.openim.android.ouiconversation.ui.PreviewMediaActivity;
 import io.openim.android.ouiconversation.vm.CustomEmojiVM;
 import io.openim.android.ouiconversation.widget.SendStateView;
 import io.openim.android.ouiconversation.vm.ChatVM;
 import io.openim.android.ouiconversation.ui.fragment.InputExpandFragment;
+import io.openim.android.ouiconversation.widget.AudioRecordView;
 import io.openim.android.ouicore.adapter.RecyclerViewAdapter;
 import io.openim.android.ouicore.base.BaseApp;
 import io.openim.android.ouicore.base.vm.injection.Easy;
@@ -93,6 +100,7 @@ public class MessageViewHolder {
                                                            int viewType) {
         if (viewType == Constants.LOADING) return new LoadingView(parent);
         if (viewType == MessageType.PICTURE) return new IMGView(parent);
+        if (viewType == MessageType.VOICE) return new VoiceView(parent);
         return new TXTView(parent);
     }
 
@@ -142,16 +150,16 @@ public class MessageViewHolder {
             try {
                 isOwn = getSendWay(message);
                 if (isOwn) {
-                    if (leftIsInflated) left.setVisibility(View.GONE);
-                    if (rightIsInflated) right.setVisibility(View.VISIBLE);
+                    if (leftIsInflated) left.setVisibility(GONE);
+                    if (rightIsInflated) right.setVisibility(VISIBLE);
                     if (!rightIsInflated) {
                         right.setLayoutResource(getRightInflatedId());
                         right.inflate();
                     }
                     bindRight(itemView, message);
                 } else {
-                    if (leftIsInflated) left.setVisibility(View.VISIBLE);
-                    if (rightIsInflated) right.setVisibility(View.GONE);
+                    if (leftIsInflated) left.setVisibility(VISIBLE);
+                    if (rightIsInflated) right.setVisibility(GONE);
                     if (!leftIsInflated) {
                         left.setLayoutResource(getLeftInflatedId());
                         left.inflate();
@@ -211,17 +219,21 @@ public class MessageViewHolder {
             if (isOwn) nickName = itemView.findViewById(R.id.nickName2);
             else nickName = itemView.findViewById(R.id.nickName);
             if (null != nickName) {
-                nickName.setVisibility(View.VISIBLE);
+//                nickName.setVisibility(VISIBLE);
                 nickName.setMaxLines(1);
                 nickName.setMaxEms(18);
                 nickName.setEllipsize(TextUtils.TruncateAt.MIDDLE);
-
-                boolean isSending = message.getStatus() == MessageStatus.SENDING;
-                String time = TimeUtil.getTimeString(isSending ? System.currentTimeMillis() :
-                    message.getSendTime());
-                if (isSending || message.getSessionType() == ConversationType.SINGLE_CHAT) {
-                    nickName.setText(time);
-                } else nickName.setText(message.getSenderNickname() + "  " + time);
+//                boolean isSending = message.getStatus() == MessageStatus.SENDING;
+//                String time = TimeUtil.getTimeString(isSending ? System.currentTimeMillis() :
+//                    message.getSendTime());
+                if (message.getSessionType() == ConversationType.SINGLE_CHAT) {
+//                    nickName.setText(time);
+                    nickName.setVisibility(GONE);
+                } else {
+                    nickName.setVisibility(VISIBLE);
+//                    nickName.setText(message.getSenderNickname() + "  " + time);
+                    nickName.setText(message.getSenderNickname());
+                }
             }
         }
 
@@ -253,9 +265,9 @@ public class MessageViewHolder {
             if (msgExpand.isShowTime) {
                 //显示时间
                 String time = TimeUtil.getTimeString(message.getSendTime());
-                notice.setVisibility(View.VISIBLE);
+                notice.setVisibility(VISIBLE);
                 notice.setText(time);
-            } else notice.setVisibility(View.GONE);
+            } else notice.setVisibility(GONE);
         }
 
         public void bindRecyclerView(RecyclerView recyclerView) {
@@ -353,7 +365,6 @@ public class MessageViewHolder {
         @Override
         protected void bindLeft(View itemView, Message message) {
             LayoutMsgImgLeftBinding v = LayoutMsgImgLeftBinding.bind(itemView);
-
             v.sendState.setSendState(message.getStatus());
             String url = loadIMG(v.content, message);
             toPreview(v.content, url, null);
@@ -364,12 +375,17 @@ public class MessageViewHolder {
             int w = message.getPictureElem().getSourcePicture().getWidth();
             int h = message.getPictureElem().getSourcePicture().getHeight();
             scale(img, w, h);
-            Glide.with(BaseApp.inst()).load(message.getPictureElem().getSnapshotPicture().getUrl()).placeholder(new PlaceHolderDrawable(BaseApp.inst())).error(io.openim.android.ouicore.R.mipmap.ic_chat_photo).fitCenter().transform(new RoundedCorners(15)).into(img);
+            Glide.with(BaseApp.inst())
+                .load(message.getPictureElem().getSnapshotPicture().getUrl())
+                .placeholder(new PlaceHolderDrawable(BaseApp.inst()))
+                .error(io.openim.android.ouicore.R.mipmap.ic_chat_photo)
+                .fitCenter().transform(new RoundedCorners(Common.dp2px(8)))
+                .into(img);
             return url;
         }
 
         public void scale(View img, int sourceW, int sourceH) {
-            int pictureWidth = Common.dp2px(180);
+            int pictureWidth = Common.dp2px(120);
             int _trulyWidth;
             int _trulyHeight;
             if (sourceW == 0) {
@@ -395,13 +411,55 @@ public class MessageViewHolder {
         protected void bindRight(View itemView, Message message) {
             LayoutMsgImgRightBinding v = LayoutMsgImgRightBinding.bind(itemView);
             v.avatar2.load(message.getSenderFaceUrl(), message.getSenderNickname());
-            v.videoPlay2.setVisibility(View.GONE);
-            v.mask2.setVisibility(View.GONE);
-
             v.sendState2.setSendState(message.getStatus());
             String url = loadIMG(v.content2, message);
             toPreview(v.content2, url, null);
         }
 
     }
+
+
+    //语音消息
+    public static class VoiceView extends MessageViewHolder.MsgViewHolder {
+
+        public VoiceView(ViewGroup parent) {
+            super(parent);
+        }
+
+        @Override
+        protected int getLeftInflatedId() {
+            return R.layout.layout_msg_voice_left;
+        }
+
+        @Override
+        protected int getRightInflatedId() {
+            return R.layout.layout_msg_voice_right;
+        }
+
+        @Override
+        protected void bindLeft(View itemView, Message message) {
+            LayoutMsgVoiceLeftBinding v = LayoutMsgVoiceLeftBinding.bind(itemView);
+            v.avatar.load(message.getSenderFaceUrl(), message.getSenderNickname());
+            bindVoice(v.content, message);
+        }
+
+        @Override
+        protected void bindRight(View itemView, Message message) {
+            LayoutMsgVoiceRightBinding v = LayoutMsgVoiceRightBinding.bind(itemView);
+            v.avatar2.load(message.getSenderFaceUrl(), message.getSenderNickname());
+            v.sendState2.setSendState(message.getStatus());
+            bindVoice(v.content2, message);
+        }
+
+        private void bindVoice(AudioRecordView content, Message message) {
+            content.setDurationSeconds(message.getSoundElem() == null ? 0L : message.getSoundElem().getDuration());
+            if (messageAdapter != null) messageAdapter.bindVoiceView(message, content);
+            else content.setPlaying(false);
+            content.setOnClickListener(v -> {
+                if (messageAdapter != null) messageAdapter.toggleVoice(message, content);
+            });
+        }
+    }
+
+
 }

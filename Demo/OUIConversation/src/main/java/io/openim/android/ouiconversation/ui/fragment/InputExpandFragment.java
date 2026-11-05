@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.luck.picture.lib.utils.ToastUtils;
 import com.therouter.TheRouter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -71,10 +72,10 @@ import io.openim.android.sdk.models.Message;
 
 public class InputExpandFragment extends BaseFragment<ChatVM> {
     public static List<Integer> menuIcons =
-        Arrays.asList(io.openim.android.ouicore.R.mipmap.ic_chat_photo, io.openim.android.ouicore.R.mipmap.ic_tools_video_call);
+        Arrays.asList(io.openim.android.ouicore.R.drawable.ic_chat_photo, io.openim.android.ouicore.R.drawable.ic_chat_camera);
     public static List<String> menuTitles =
         Arrays.asList(BaseApp.inst().getString(io.openim.android.ouicore.R.string.album),
-            BaseApp.inst().getString(io.openim.android.ouicore.R.string.video_calls));
+            BaseApp.inst().getString(io.openim.android.ouicore.R.string.shoot));
 
     FragmentInputExpandBinding v;
     // permissions
@@ -109,16 +110,16 @@ public class InputExpandFragment extends BaseFragment<ChatVM> {
 
                 @Override
                 public void onBindView(@NonNull ExpandHolder holder, Object data, int position) {
-                    holder.v.menu.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
-                        getContext().getDrawable(menuIcons.get(position)), null, null);
-                    holder.v.menu.setText(menuTitles.get(position));
+                    holder.v.menuIv.setImageResource(menuIcons.get(position));
+                    holder.v.menuTv.setText(menuTitles.get(position));
                     holder.v.menu.setOnClickListener(v -> {
                         switch (position) {
                             case 0:
                                 showMediaPicker();
                                 break;
                             case 1:
-                                goToCall();
+                                Toast.makeText(getContext(), "相机", Toast.LENGTH_SHORT).show();
+//                                goToCall();
                                 break;
                         }
                     });
@@ -136,7 +137,7 @@ public class InputExpandFragment extends BaseFragment<ChatVM> {
                     ArrayList<LocalMedia> files = PictureSelector.obtainSelectorList(data);
 
                     for (LocalMedia file : files) {
-                        String path = GetFilePathFromUri.getFileAbsolutePath(InputExpandFragment.this.getActivity() ,Uri.parse(file.getAvailablePath()));
+                        String path = GetFilePathFromUri.getFileAbsolutePath(InputExpandFragment.this.getActivity(), Uri.parse(file.getAvailablePath()));
                         Message msg = null;
                         if (MediaFileUtil.isImageType(path)) {
                             msg =

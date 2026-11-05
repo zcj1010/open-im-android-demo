@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,8 +12,8 @@
 
         <io.openim.android.ouicore.widget.AvatarImage
             android:id="@+id/avatar2"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="@dimen/dp_38"
+            android:layout_height="@dimen/dp_38"
             android:layout_alignParentEnd="true"
             android:src="@mipmap/ic_my_friend" />
 
@@ -20,7 +21,7 @@
             android:id="@+id/contentLy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="7dp"
+            android:layout_marginEnd="@dimen/dp_8"
             android:layout_toLeftOf="@id/avatar2"
             android:gravity="right"
             android:orientation="vertical">
@@ -45,16 +46,17 @@
                     android:id="@+id/readVanishNum2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/dp_8"
                     android:textColor="#ff5496eb"
                     android:textSize="12sp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:text="67" />
 
                 <io.openim.android.ouiconversation.widget.SendStateView
                     android:id="@+id/sendState2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_marginEnd="@dimen/dp_8" />
 
                 <com.vanniktech.emoji.EmojiTextView
                     android:id="@+id/content2"
@@ -63,12 +65,13 @@
                     android:background="@drawable/sty_radius_unright_30"
                     android:gravity="center_vertical"
                     android:maxWidth="@dimen/msg_max_width"
-                    android:minHeight="40dp"
-                    android:padding="7dp"
+                    android:minHeight="@dimen/dp_38"
+                    android:paddingHorizontal="@dimen/dp_12"
                     android:textColor="@color/txt_black"
                     android:textColorLink="@color/theme"
-                    android:textSize="@dimen/main_body"
-                    app:emojiSize="23sp" />
+                    android:textSize="@dimen/txt_15"
+                    app:emojiSize="@dimen/dp_23"
+                    tools:text="45678945678904567890456789045678904567890456789045678900" />
             </LinearLayout>
 
         </LinearLayout>

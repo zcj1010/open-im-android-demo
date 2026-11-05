@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources translatable="false">
+    <string name="keyboard_tag">keyboard</string>
+    <string name="voice_tag">voice</string>
+    <string name="emoji_tag">emoji</string>
+    <string name="more_tag">more</string>
 
     <string name="app_name">OpenIM</string>
     <string name="group_bulletin">群公告</string>
